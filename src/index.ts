@@ -25,18 +25,25 @@ const material = new THREE.MeshNormalMaterial({  });
 const cube = new THREE.Mesh(geometry, material);
 scene.add(cube);
 
+const cube2 = new THREE.Mesh(geometry, material)
+cube2.position.y = 1.5;
+scene.add(cube2)
+
 camera.position.z = 5;
+camera.position.y = 2;
 controls.update();
 
-const animate = function () {
+function animate(time?: DOMHighResTimeStamp) {
     requestAnimationFrame(animate);
     
-    cube.rotation.x += 0.01;
+    // cube.rotation.x += 0.01;
     cube.rotation.y += 0.01;
-    
+
+    cube2.scale.x = 1.0 + Math.sin(time * 0.001) * .5
+
     controls.update();
 
     renderer.render(scene, camera);
-};
+}
 
-animate();
+animate()
