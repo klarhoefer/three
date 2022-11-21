@@ -37,6 +37,7 @@ const loader = new GLTFLoader();
 // intitle:index.of?gltf
 
 loader.load('./red_drone.gltf', gltf => {
+    gltf.scene.position.y += 2
 	scene.add(gltf.scene);
 }, undefined, error => {
 	console.error(error);
