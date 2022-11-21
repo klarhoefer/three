@@ -1,8 +1,7 @@
-// import * as THREE from 'https://unpkg.com/three@0.124.0/build/three.module.js';
-// import { OrbitControls } from 'https://unpkg.com/three@0.124.0/examples/jsm/controls/OrbitControls.js';
 
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -27,13 +26,21 @@ scene.add(light);
 
 const geometry = new THREE.BoxGeometry();
 // const material = new THREE.MeshBasicMaterial({ color: 0x0000ff });
-const material = new THREE.MeshNormalMaterial({  });
+// const material = new THREE.MeshNormalMaterial({  });
+const material = new THREE.MeshStandardMaterial({ color: 0x7777ff });
 const cube = new THREE.Mesh(geometry, material);
 scene.add(cube);
 
-const cube2 = new THREE.Mesh(geometry, material)
-cube2.position.y = 1.5;
-scene.add(cube2)
+const loader = new GLTFLoader();
+
+// i.e. https://kibotics.org/static/websim/assets/models/
+// intitle:index.of?gltf
+
+loader.load('./red_drone.gltf', gltf => {
+	scene.add(gltf.scene);
+}, undefined, error => {
+	console.error(error);
+});
 
 camera.position.z = 5;
 camera.position.y = 2;
@@ -44,8 +51,6 @@ function animate(time?: DOMHighResTimeStamp) {
     
     // cube.rotation.x += 0.01;
     cube.rotation.y += 0.01;
-
-    cube2.scale.x = 1.0 + Math.sin(time * 0.001) * .5
 
     controls.update();
 
